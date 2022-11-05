@@ -5,17 +5,22 @@ import { prisma } from "~/db.server";
 
 export type { User } from "@prisma/client";
 
-export async function getUserById(id: User["id"]) {
-  return prisma.user.findUnique({ where: { id } });
+// creating users, and logging in and out
+
+export async function getUserById(id: User["id"]): Promise<User | null> {
+  const user: User | null = await prisma.user.findUnique({ where: { id } });
+  return user;
 }
 
-export async function getUserByEmail(email: User["email"]) {
-  return prisma.user.findUnique({ where: { email } });
+export async function getUserByEmail(
+  email: User["email"]
+): Promise<User | null> {
+  const user: User | null = await prisma.user.findUnique({ where: { email } });
+  return user;
 }
 
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-
   return prisma.user.create({
     data: {
       email,

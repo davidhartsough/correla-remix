@@ -7,6 +7,7 @@
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "remix build",
     "build:server": "esbuild --platform=node --format=cjs ./server.ts --outdir=build --bundle",
+    "db:reset": "npx prisma migrate reset",
     "db:seed": "npx prisma db seed",
     "db:update": "npx prisma db push",
     "dev": "run-p dev:*",

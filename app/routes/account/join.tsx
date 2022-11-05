@@ -1,10 +1,9 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import * as React from "react";
+import { useEffect, useRef } from "react";
 
 import { createUserSession, getUserId } from "~/session.server";
-
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
 
@@ -64,20 +63,16 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export const meta: MetaFunction = () => {
-  return {
-    title: "Sign Up",
-  };
-};
+export const meta: MetaFunction = () => ({ title: "Sign Up" });
 
 export default function Join() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData<typeof action>();
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef.current?.focus();
     } else if (actionData?.errors?.password) {

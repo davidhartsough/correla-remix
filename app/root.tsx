@@ -18,14 +18,13 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Correla",
   viewport: "width=device-width,initial-scale=1",
 });
 
 export async function loader({ request }: LoaderArgs) {
-  return json({
-    user: await getUser(request),
-  });
+  const user = await getUser(request);
+  return json({ user });
 }
 
 export default function App() {

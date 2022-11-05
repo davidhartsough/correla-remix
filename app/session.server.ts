@@ -4,6 +4,8 @@ import invariant from "tiny-invariant";
 import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
 
+// user sessions, and verifying them
+
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
 export const sessionStorage = createCookieSessionStorage({
@@ -32,7 +34,7 @@ export async function getUserId(
   return userId;
 }
 
-export async function getUser(request: Request) {
+export async function getUser(request: Request): Promise<User | null> {
   const userId = await getUserId(request);
   if (userId === undefined) return null;
 
@@ -45,7 +47,7 @@ export async function getUser(request: Request) {
 export async function requireUserId(
   request: Request,
   redirectTo: string = new URL(request.url).pathname
-) {
+): Promise<string> {
   const userId = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
@@ -54,7 +56,7 @@ export async function requireUserId(
   return userId;
 }
 
-export async function requireUser(request: Request) {
+export async function requireUser(request: Request): Promise<User> {
   const userId = await requireUserId(request);
 
   const user = await getUserById(userId);

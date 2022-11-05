@@ -16,7 +16,7 @@ model User {
 
   password Password?
 
-  profile  Profile?
+  person   Person?
   projects Project[]
 }
 
@@ -27,7 +27,7 @@ model Password {
   userId String @unique
 }
 
-model Profile {
+model Person {
   id       String  @id @default(cuid())
   email    String?
   username String  @unique
@@ -57,7 +57,7 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  team Profile[]
+  team Person[]
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
