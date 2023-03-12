@@ -89,7 +89,7 @@ export default function Join() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address
+              Email
             </label>
             <div className="mt-1">
               <input

@@ -1,12 +1,13 @@
-export interface BasicInfo {
+export type PType = "PERSON" | "PROJECT";
+
+export interface ProfileInfo {
+  id: string;
+  email: string;
+  username: string;
+  type: PType;
   name: string;
   identity: string;
-  email: string | null;
-  links: string[];
-}
 
-export interface ProfileInfo extends BasicInfo {
-  id: string;
-  username: string;
-  userId: string;
+  linkUrls: string[];
+  linkTitles: string[];
 }

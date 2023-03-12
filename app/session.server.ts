@@ -1,7 +1,6 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 
-import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
 
 // user sessions, and verifying them
@@ -26,15 +25,13 @@ export async function getSession(request: Request) {
   return sessionStorage.getSession(cookie);
 }
 
-export async function getUserId(
-  request: Request
-): Promise<User["id"] | undefined> {
+export async function getUserId(request: Request): Promise<string | undefined> {
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY);
   return userId;
 }
 
-export async function getUser(request: Request): Promise<User | null> {
+export async function getUser(request: Request) {
   const userId = await getUserId(request);
   if (userId === undefined) return null;
 
@@ -56,7 +53,7 @@ export async function requireUserId(
   return userId;
 }
 
-export async function requireUser(request: Request): Promise<User> {
+export async function requireUser(request: Request) {
   const userId = await requireUserId(request);
 
   const user = await getUserById(userId);

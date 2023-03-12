@@ -22,6 +22,12 @@ async function seed() {
           hash: hashedPassword,
         },
       },
+      name: "Rachel",
+      identity: "cool beans, human",
+      type: "PERSON",
+      username: "racheliscool",
+      linkUrls: ["https://davidhartsough.com/"],
+      linkTitles: ["My Favorite Website"],
     },
   });
   /*

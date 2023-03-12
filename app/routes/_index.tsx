@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 
+// TODO: Complete - style
 export default function Index() {
   return (
     <main>
@@ -9,7 +10,7 @@ export default function Index() {
       <section>
         <p>
           <Link to="/explore">Explore</Link>
-          <Link to="/account">Account</Link>
+          <Link to="/a">Account</Link>
         </p>
       </section>
     </main>

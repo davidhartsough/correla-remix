@@ -7,19 +7,32 @@ export type { User } from "@prisma/client";
 
 // creating users, and logging in and out
 
-export async function getUserById(id: User["id"]): Promise<User | null> {
-  const user: User | null = await prisma.user.findUnique({ where: { id } });
+export async function getUserById(id: string) {
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      name: true,
+      type: true,
+    },
+  });
   return user;
 }
 
-export async function getUserByEmail(
-  email: User["email"]
-): Promise<User | null> {
-  const user: User | null = await prisma.user.findUnique({ where: { email } });
+export async function getUserByEmail(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: {
+      id: true,
+      email: true,
+    },
+  });
   return user;
 }
 
-export async function createUser(email: User["email"], password: string) {
+export async function createUser(email: string, password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
   return prisma.user.create({
     data: {
@@ -29,6 +42,10 @@ export async function createUser(email: User["email"], password: string) {
           hash: hashedPassword,
         },
       },
+      name: "",
+      identity: "",
+      type: "PERSON",
+      username: "",
     },
   });
 }
@@ -65,3 +82,22 @@ export async function verifyLogin(
 
   return userWithoutPassword;
 }
+
+// #region Profile
+
+export async function getProfileByUsername(username: string) {
+  return prisma.user.findUnique({
+    where: { username },
+    select: {
+      id: true,
+      type: true,
+      name: true,
+      username: true,
+      identity: true,
+      linkUrls: true,
+      linkTitles: true,
+    },
+  });
+}
+
+// #endregion
